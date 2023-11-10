@@ -7,7 +7,7 @@ const SectionTitle = ({ heading, subHeading }) => {
         </p>
       </div>
       <div className="text-center">
-        <span className="text-center text-[#151515] uppercase font-medium text-4xl  border-y-4 py-3 px-8 ">
+        <span className="text-center  uppercase font-medium text-4xl  border-y-4 py-3 px-8 ">
           {heading}
         </span>
       </div>
