@@ -28,7 +28,7 @@ const Menu = () => {
         subHeading={"Don't Miss"}
       ></SectionTitle>
       {/* offered menu items */}
-      <MenuCategory items={offerers}></MenuCategory>
+      <MenuCategory items={offerers} title={"offered"}></MenuCategory>
       {/* dessert menu items */}
       <MenuCategory
         items={desserts}
@@ -51,6 +51,11 @@ const Menu = () => {
       <MenuCategory
         items={soups}
         title={"soups"}
+        coverImg={soupImg}
+      ></MenuCategory>
+      <MenuCategory
+        items={soups}
+        title={"offered"}
         coverImg={soupImg}
       ></MenuCategory>
     </div>
