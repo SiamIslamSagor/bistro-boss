@@ -1,3 +1,11 @@
+import { useEffect } from "react";
+import {
+  loadCaptchaEnginge,
+  LoadCanvasTemplate,
+  LoadCanvasTemplateNoReload,
+  validateCaptcha,
+} from "react-simple-captcha";
+
 const Login = () => {
   const handleLogin = e => {
     e.preventDefault();
@@ -6,6 +14,10 @@ const Login = () => {
     const password = form.password.value;
     console.log(email, password);
   };
+
+  useEffect(() => {
+    loadCaptchaEnginge(6);
+  }, []);
 
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -48,6 +60,18 @@ const Login = () => {
                   Forgot password?
                 </a>
               </label>
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <LoadCanvasTemplate></LoadCanvasTemplate>
+              </label>
+              <input
+                type="text"
+                name="captcha"
+                placeholder="type the captcha above"
+                className="input input-bordered"
+                required
+              />
             </div>
             <div className="form-control mt-6">
               <input className="btn btn-primary" type="submit" value="Login" />
