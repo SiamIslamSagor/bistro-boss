@@ -5,15 +5,18 @@ import {
   validateCaptcha,
 } from "react-simple-captcha";
 import useContextData from "../../hooks/useContextData";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
 
 const Login = () => {
   // context data
   const { emailPassLogin } = useContextData();
-
+  // state
   const [isLoginDisable, setIsLoginDisable] = useState(true);
+
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // handler
   const handleLogin = e => {
@@ -32,6 +35,7 @@ const Login = () => {
           title: "User Login Successfully!",
           icon: "success",
         });
+        navigate(location.state ? location.state : "/");
       })
       .catch(err => {
         console.log(err);
