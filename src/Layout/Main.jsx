@@ -4,10 +4,8 @@ import NavBar from "../pages/Shared/Navbar/NavBar";
 
 const Main = () => {
   const location = useLocation();
-  console.log(location);
   const isAuthPage =
     location.pathname.includes("login") || location.pathname.includes("signUp");
-  console.log(isAuthPage);
 
   return (
     <div>
