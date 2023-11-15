@@ -1,18 +1,33 @@
-import useContextData from "../../hooks/useContextData";
-import useUserEmail from "../../hooks/useUserEmail";
+import Swal from "sweetalert2";
+import useAuthInfo from "../../hooks/useAuthInfo";
+import { useNavigate } from "react-router-dom";
 
 const FoodCard = ({ item }) => {
   // user info get by using hook
-  const userEmail = useUserEmail();
+  const { user } = useAuthInfo();
+  const navigate = useNavigate();
   const { image, price, recipe, name } = item;
 
   // handler
   const handleAddToCart = food => {
-    console.log(food);
-    // user info
-    console.log(userEmail);
-
-    // send food in database
+    if (user && user.email) {
+      // send food in database
+      console.log(food);
+    } else {
+      Swal.fire({
+        title: "Please Login!",
+        text: "You won't be Add item in your cart, Please Login!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login!",
+      }).then(result => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+    }
   };
 
   return (
