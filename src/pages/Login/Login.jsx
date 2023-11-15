@@ -23,7 +23,7 @@ const Login = () => {
     const password = form.password.value;
     console.log(email, password);
 
-    // creating user
+    // logging user
     emailPassLogin(email, password)
       .then(res => {
         const user = res.user;

@@ -16,6 +16,15 @@ const SignUp = () => {
 
   const onSubmit = data => {
     console.log(data);
+    // creating user
+    createUser(data.email, data.password)
+      .then(res => {
+        const loggedUser = res.user;
+        console.log(loggedUser);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   /*   // handler 
