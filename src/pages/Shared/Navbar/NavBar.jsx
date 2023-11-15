@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import useContextData from "../../../hooks/useContextData";
+import { BsFillCartFill } from "react-icons/bs";
 
 const NavBar = () => {
   const { user, logOut } = useContextData();
@@ -26,9 +27,17 @@ const NavBar = () => {
       <li>
         <Link to="/order/salads">Order Food</Link>
       </li>
+      <li>
+        <Link to="/">
+          <button className="btn btn-sm">
+            <BsFillCartFill />
+            <div className="badge badge-secondary">+0</div>
+          </button>
+        </Link>
+      </li>
       {user ? (
         <>
-          <span>{user?.displayName}</span>
+          {/* <span>{user?.displayName}</span> */}
           <button onClick={handleLogOut} className="btn btn-sm btn-ghost">
             Log Out
           </button>
@@ -72,7 +81,7 @@ const NavBar = () => {
           <a className="btn btn-ghost normal-case text-xl">Bistro Boss</a>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">{links}</ul>
+          <ul className="menu menu-horizontal px-1 items-center">{links}</ul>
         </div>
         <div className="navbar-end">
           <a className="btn">Button</a>
