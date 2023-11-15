@@ -7,11 +7,15 @@ const PrivetRoute = ({ children }) => {
   const location = useLocation();
 
   if (loading) {
-    return <h2 className="text-center text-6xl">Loading....</h2>;
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center ">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
   }
 
   if (!user) {
-    return <Navigate state={location.pathname} to="/login"></Navigate>;
+    return <Navigate state={{ from: location }} to="/login"></Navigate>;
   }
 
   return children;

@@ -17,6 +17,7 @@ const Login = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
 
   // handler
   const handleLogin = e => {
@@ -35,7 +36,7 @@ const Login = () => {
           title: "User Login Successfully!",
           icon: "success",
         });
-        navigate(location.state ? location.state : "/");
+        navigate(from, { replace: true });
       })
       .catch(err => {
         console.log(err);

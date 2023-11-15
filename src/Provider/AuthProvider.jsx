@@ -8,6 +8,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { app } from "../config/firebase.config";
 
@@ -46,6 +47,14 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
+  // update user info
+  const updateUserProfile = (name, photo) => {
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photo,
+    });
+  };
+
   // log out user
   const logOut = () => {
     return signOut(auth);
@@ -62,7 +71,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       return unsubscribe();
     };
-  }, [setUpdatingUser]);
+  }, [updatingUser]);
 
   //////////////////// main data//////////////////
 
@@ -76,6 +85,7 @@ const AuthProvider = ({ children }) => {
     createUser,
     emailPassLogin,
     loginWithGoogle,
+    updateUserProfile,
     logOut,
 
     // state function

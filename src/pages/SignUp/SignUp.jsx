@@ -1,18 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useContextData from "../../hooks/useContextData";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
   // context data
-  const { createUser } = useContextData();
+  const { createUser, updateUserProfile, updatingUser, setUpdatingUser } =
+    useContextData();
 
   const {
     register,
     handleSubmit,
-
+    reset,
     formState: { errors },
   } = useForm();
+
+  const navigate = useNavigate();
 
   const onSubmit = data => {
     console.log(data);
@@ -21,6 +25,22 @@ const SignUp = () => {
       .then(res => {
         const loggedUser = res.user;
         console.log(loggedUser);
+
+        // updating user info
+        updateUserProfile(data.name, data.photoUrl)
+          .then(() => {
+            console.log("update profile done");
+            reset();
+            Swal.fire({
+              title: "Account Created Successfully!",
+              icon: "success",
+            });
+            setUpdatingUser(!updatingUser);
+            navigate("/");
+          })
+          .catch(err => {
+            console.log(err);
+          });
       })
       .catch(err => {
         console.log(err);
@@ -65,6 +85,24 @@ const SignUp = () => {
                   className="input input-bordered"
                 />
               </div>
+
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Photo URL</span>
+                </label>
+                {errors.photoUrl && (
+                  <span className="text-sm text-red-500">
+                    Photo URL is required *
+                  </span>
+                )}
+                <input
+                  type="url"
+                  {...register("photoUrl", { required: true })}
+                  placeholder="Your Name"
+                  className="input input-bordered"
+                />
+              </div>
+
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Email</span>
@@ -103,7 +141,7 @@ const SignUp = () => {
                 )}
 
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   {...register("password", {
                     required: true,
