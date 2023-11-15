@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
@@ -7,12 +7,12 @@ import {
 import useContextData from "../../hooks/useContextData";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
 
 const Login = () => {
   // context data
   const { emailPassLogin } = useContextData();
 
-  const captchaRef = useRef(null);
   const [isLoginDisable, setIsLoginDisable] = useState(true);
 
   // handler
@@ -28,20 +28,24 @@ const Login = () => {
       .then(res => {
         const user = res.user;
         console.log(user);
+        Swal.fire({
+          title: "User Login Successfully!",
+          icon: "success",
+        });
       })
       .catch(err => {
         console.log(err);
       });
   };
 
-  const handleValidateCaptcha = () => {
-    const user_captcha_value = captchaRef.current.value;
+  const handleValidateCaptcha = e => {
+    const user_captcha_value = e.target.value;
     if (validateCaptcha(user_captcha_value) === true) {
       setIsLoginDisable(false);
-      alert("Captcha Matched");
+      // alert("Captcha Matched");
     } else {
       setIsLoginDisable(true);
-      alert("Captcha Does Not Match");
+      // alert("Captcha Does Not Match");
     }
   };
 
@@ -101,16 +105,13 @@ const Login = () => {
                 </label>
                 <input
                   type="text"
-                  ref={captchaRef}
+                  onBlur={handleValidateCaptcha}
                   name="captcha"
                   placeholder="type the captcha above"
                   className="input input-bordered"
                   required
                 />
-                <button
-                  onClick={handleValidateCaptcha}
-                  className="mt-2 btn btn-outline btn-xs"
-                >
+                <button className="mt-2 btn btn-outline btn-xs">
                   Validate
                 </button>
               </div>
