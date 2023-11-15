@@ -4,16 +4,33 @@ import {
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
+import useContextData from "../../hooks/useContextData";
+import { Link } from "react-router-dom";
 
 const Login = () => {
+  // context data
+  const { emailPassLogin } = useContextData();
+
   const captchaRef = useRef(null);
   const [isLoginDisable, setIsLoginDisable] = useState(true);
+
+  // handler
   const handleLogin = e => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+
+    // creating user
+    emailPassLogin(email, password)
+      .then(res => {
+        const user = res.user;
+        console.log(user);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleValidateCaptcha = () => {
@@ -87,7 +104,7 @@ const Login = () => {
               />
               <button
                 onClick={handleValidateCaptcha}
-                className="btn btn-outline btn-xs"
+                className="mt-2 btn btn-outline btn-xs"
               >
                 Validate
               </button>
@@ -101,6 +118,16 @@ const Login = () => {
               />
             </div>
           </form>
+          <div className="text-center mb-10">
+            <p>
+              <small>
+                New Here? please{" "}
+                <Link className="text-blue-500 underline" to="/signUp">
+                  Sign Up
+                </Link>
+              </small>
+            </p>
+          </div>
         </div>
       </div>
     </div>

@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [updatingUser, setUpdatingUser] = true;
+  const [updatingUser, setUpdatingUser] = useState(true);
 
   //////////////////// functionality//////////////////
 
@@ -32,6 +32,7 @@ const AuthProvider = ({ children }) => {
 
   // emailPass login
   const createUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
