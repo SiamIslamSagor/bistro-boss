@@ -1,6 +1,20 @@
 import { Link } from "react-router-dom";
+import useContextData from "../../../hooks/useContextData";
 
 const NavBar = () => {
+  const { user, logOut } = useContextData();
+
+  const handleLogOut = () => {
+    // log Outing
+    logOut()
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   const links = (
     <>
       <li>
@@ -12,14 +26,18 @@ const NavBar = () => {
       <li>
         <Link to="/order/salads">Order Food</Link>
       </li>
-      <li>
-        <Link to="/login">Login</Link>
-      </li>
-      <li>
-        <Link to="/signUp">Sign Up</Link>
-      </li>
+      {user ? (
+        <button onClick={handleLogOut} className="btn btn-sm btn-ghost">
+          Log Out
+        </button>
+      ) : (
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
+      )}
     </>
   );
+
   return (
     <>
       <div className="navbar text-white max-w-screen-xl mx-auto z-30 bg-opacity-30 fixed bg-black">
