@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
 import useContextData from "../../../hooks/useContextData";
 import { BsFillCartFill } from "react-icons/bs";
+import useCart from "../../../hooks/useCart";
 
 const NavBar = () => {
   const { user, logOut } = useContextData();
+
+  //
+  const [cart] = useCart();
 
   const handleLogOut = () => {
     // log Outing
@@ -31,7 +35,7 @@ const NavBar = () => {
         <Link to="/">
           <button className="btn btn-sm">
             <BsFillCartFill />
-            <div className="badge badge-secondary">+0</div>
+            <div className="badge badge-secondary">+{cart.length}</div>
           </button>
         </Link>
       </li>
