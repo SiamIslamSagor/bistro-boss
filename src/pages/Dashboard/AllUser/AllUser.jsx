@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { FaTrashAlt, FaUsers } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const AllUser = () => {
   //
   const axiosSecure = useAxiosSecure();
-  const { data: users = [] } = useQuery({
+  const { data: users = [], refetch } = useQuery({
     queryKey: ["usersDataWithTanStack"],
     queryFn: async () => {
       const res = await axiosSecure.get("/users");
@@ -16,7 +17,37 @@ const AllUser = () => {
 
   //   handler
   const handleDeleteUser = user => {
-    console.log();
+    console.log(user._id);
+    //
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(result => {
+      if (result.isConfirmed) {
+        // hit delete api in server side by specific id;
+        axiosSecure
+          .delete(`/users/${user._id}`)
+          .then(res => {
+            console.log("DELETE THIS: ", user._id);
+            refetch();
+            if (res?.data?.deletedCount >= 0) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    });
   };
   return (
     <div>
