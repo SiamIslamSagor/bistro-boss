@@ -3,11 +3,13 @@ import useContextData from "../../hooks/useContextData";
 import { useForm } from "react-hook-form";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const SignUp = () => {
   // context data
-  const { createUser, updateUserProfile, updatingUser, setUpdatingUser } =
+  const { createUser, updatingUser, setUpdatingUser, updateUserProfile } =
     useContextData();
+  const axiosPublic = useAxiosPublic();
 
   const {
     register,
@@ -19,7 +21,6 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const onSubmit = data => {
-    console.log(data);
     // creating user
     createUser(data.email, data.password)
       .then(res => {
@@ -30,13 +31,23 @@ const SignUp = () => {
         updateUserProfile(data.name, data.photoUrl)
           .then(() => {
             console.log("update profile done");
-            reset();
-            Swal.fire({
-              title: "Account Created Successfully!",
-              icon: "success",
+
+            // // create user entry in the database
+            const userInfo = {
+              name: data.name,
+              email: data.email,
+            };
+            axiosPublic.post("/users", userInfo).then(res => {
+              if (res.data.insertedId) {
+                reset();
+                Swal.fire({
+                  title: "Account Created Successfully!",
+                  icon: "success",
+                });
+                setUpdatingUser(!updatingUser);
+                navigate("/");
+              }
             });
-            setUpdatingUser(!updatingUser);
-            navigate("/");
           })
           .catch(err => {
             console.log(err);

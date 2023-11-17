@@ -51,7 +51,7 @@ const Dashboard = props => {
         </ul>
       </div>
       {/* dashboard content */}
-      <div className="flex-1 bg-yellow-50 p-10">
+      <div className="flex-1 p-10">
         <Outlet></Outlet>
       </div>
     </div>
