@@ -8,6 +8,7 @@ import useContextData from "../../hooks/useContextData";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
+import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 const Login = () => {
   // context data
@@ -131,6 +132,7 @@ const Login = () => {
                 />
               </div>
             </form>
+            <SocialLogin></SocialLogin>
             <div className="text-center mb-10">
               <p>
                 <small>

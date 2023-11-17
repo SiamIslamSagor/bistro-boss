@@ -20,11 +20,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "menu",
-        element: (
-          <PrivetRoute>
-            <Menu></Menu>
-          </PrivetRoute>
-        ),
+        element: <Menu></Menu>,
       },
       {
         path: "order/:category",
@@ -42,7 +38,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard></Dashboard>,
+    element: (
+      <PrivetRoute>
+        <Dashboard></Dashboard>
+      </PrivetRoute>
+    ),
     children: [
       {
         path: "cart",

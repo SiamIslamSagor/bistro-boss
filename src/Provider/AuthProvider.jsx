@@ -39,11 +39,13 @@ const AuthProvider = ({ children }) => {
 
   // log In user
   const emailPassLogin = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   // google login
   const loginWithGoogle = () => {
+    setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
 
