@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { FaTrashAlt, FaUsers } from "react-icons/fa";
 
 const AllUser = () => {
   //
@@ -12,6 +13,11 @@ const AllUser = () => {
       return res.data;
     },
   });
+
+  //   handler
+  const handleDeleteUser = user => {
+    console.log();
+  };
   return (
     <div>
       <div className="flex justify-evenly">
@@ -19,24 +25,39 @@ const AllUser = () => {
         <h2 className="text-3xl">Total Users: {users.length}</h2>
       </div>
       {/*  */}
-      <div className="overflow-x-auto">
-        <table className="table table-zebra">
-          {/* head */}
+      <div className="overflow-x-auto w-full rounded-t-2xl mt-6">
+        <table className="table">
           <thead>
-            <tr>
-              <th></th>
+            <tr className="text-white bg-[#D1A054] ">
+              <th>#</th>
               <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th className="py-6">Action</th>
             </tr>
           </thead>
           <tbody>
-            {users.map(user => (
+            {users.map((user, index) => (
               <tr key={user._id}>
-                <th>1</th>
-                <td>Cy Ganderton</td>
-                <td>Quality Control Specialist</td>
-                <td>Blue</td>
+                <th>{index + 1}</th>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <th>
+                  <button
+                    onClick={() => handleDeleteUser(user)}
+                    className="btn btn-xl text-white bg-[#D1A054] btn-circle"
+                  >
+                    <FaUsers className="text-2xl"></FaUsers>
+                  </button>
+                </th>
+                <th>
+                  <button
+                    onClick={() => handleDeleteUser(user)}
+                    className="btn btn-xl text-white bg-red-600 btn-circle"
+                  >
+                    <FaTrashAlt className="text-lg"></FaTrashAlt>
+                  </button>
+                </th>
               </tr>
             ))}
           </tbody>
