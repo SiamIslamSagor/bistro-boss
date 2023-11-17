@@ -22,13 +22,13 @@ const Cart = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(result => {
       if (result.isConfirmed) {
-        //
+        // hit delete api in server side by specific id;
         axiosSecure
           .delete(`/carts/${id}`)
           .then(res => {
             console.log("DELETE THIS: ", id);
             refetch();
-            if (res?.data?.deletedCount) {
+            if (res?.data?.deletedCount >= 0) {
               Swal.fire({
                 title: "Deleted!",
                 text: "Your file has been deleted.",
@@ -39,7 +39,6 @@ const Cart = () => {
           .catch(err => {
             console.log(err);
           });
-        //
       }
     });
   };

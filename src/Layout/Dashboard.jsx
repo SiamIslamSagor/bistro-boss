@@ -2,8 +2,10 @@ import PropTypes from "prop-types";
 import { NavLink, Outlet } from "react-router-dom";
 import { FaCalendar, FaHome, FaShoppingCart } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
+import useCart from "../hooks/useCart";
 
 const Dashboard = props => {
+  const [cart] = useCart();
   return (
     <div className="flex">
       {/* side navigation */}
@@ -21,7 +23,7 @@ const Dashboard = props => {
           </li>
           <li>
             <NavLink to="/dashboard/cart">
-              <FaShoppingCart></FaShoppingCart> My Cart
+              <FaShoppingCart></FaShoppingCart> My Cart ({cart.length})
             </NavLink>
           </li>
           <li>
