@@ -49,6 +49,41 @@ const AllUser = () => {
       }
     });
   };
+
+  const handleMakeAdmin = user => {
+    //
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be give admin role for this specific user!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Give Admin Role!",
+    }).then(result => {
+      if (result.isConfirmed) {
+        // hit delete api in server side by specific id;
+        axiosSecure
+          .patch(`/users/admin/${user._id}`)
+          .then(res => {
+            console.log("GIVE ADMIN ROLE:> ", user._id);
+            refetch();
+            if (res?.data?.modifiedCount >= 0) {
+              Swal.fire({
+                title: "Admin Created Successfully!",
+                text: "Congress! You Have created a new admin.",
+                icon: "success",
+                timer: 1500,
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    });
+  };
+
   return (
     <div>
       <div className="flex justify-evenly">
@@ -74,12 +109,16 @@ const AllUser = () => {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <th>
-                  <button
-                    onClick={() => handleDeleteUser(user)}
-                    className="btn btn-xl text-white bg-[#D1A054] btn-circle"
-                  >
-                    <FaUsers className="text-2xl"></FaUsers>
-                  </button>
+                  {user.role === "admin" ? (
+                    "Admin"
+                  ) : (
+                    <button
+                      onClick={() => handleMakeAdmin(user)}
+                      className="btn btn-xl text-white bg-[#D1A054] btn-circle"
+                    >
+                      <FaUsers className="text-2xl"></FaUsers>
+                    </button>
+                  )}
                 </th>
                 <th>
                   <button
