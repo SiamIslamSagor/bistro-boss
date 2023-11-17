@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { NavLink, Outlet } from "react-router-dom";
 import {
   FaBook,
@@ -15,7 +14,7 @@ import { IoMdMenu } from "react-icons/io";
 import useCart from "../hooks/useCart";
 import { useState } from "react";
 
-const Dashboard = props => {
+const Dashboard = () => {
   const [cart] = useCart();
 
   // TODO: get is admin value from the database
@@ -113,7 +112,5 @@ const Dashboard = props => {
     </div>
   );
 };
-
-Dashboard.propTypes = {};
 
 export default Dashboard;
