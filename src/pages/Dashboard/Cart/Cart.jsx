@@ -1,62 +1,81 @@
+import { FaTrashAlt } from "react-icons/fa";
 import useCart from "../../../hooks/useCart";
+import Swal from "sweetalert2";
 
 const Cart = () => {
   const [cart] = useCart();
 
   // price
   const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+
+  // handler
+  const handleDelete = id => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(result => {
+      if (result.isConfirmed) {
+        console.log("DELETE THIS: ", id),
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+      }
+    });
+  };
   return (
     <div>
       <div className="flex justify-evenly">
         <h2 className="text-4xl">Total Orders: {cart?.length}</h2>
-        <h2 className="text-4xl">Total Price: {totalPrice}</h2>
+        <h2 className="text-4xl">Total Price: ${totalPrice}</h2>
         <button className="btn btn-primary">Pay</button>
       </div>
 
       {/*
        */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto w-full rounded-t-2xl mt-6">
         <table className="table">
           {/* head */}
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Action</th>
+          <thead className="">
+            <tr className="text-white bg-[#D1A054] ">
+              <th className="">#</th>
+              <th className="">Item Image</th>
+              <th className="">Item Name</th>
+              <th className="">Price</th>
+              <th className="py-6">Action</th>
             </tr>
           </thead>
           <tbody>
-            {cart.map(item => (
+            {cart.map((item, index) => (
               <tr key={item._id}>
-                <th>#</th>
+                <th>{index + 1}</th>
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
+                      <div className="mask mask-squire rounded-md w-16 h-16">
                         <img
                           src={item.image}
                           alt="Avatar Tailwind CSS Component"
                         />
                       </div>
                     </div>
-                    <div>
-                      <div className="font-bold">Hart Hagerty</div>
-                      <div className="text-sm opacity-50">United States</div>
-                    </div>
                   </div>
                 </td>
-                <td>
-                  Zemlak, Daniel and Leannon
-                  <br />
-                  <span className="badge badge-ghost badge-sm">
-                    Desktop Support Technician
-                  </span>
-                </td>
-                <td>Purple</td>
+                <td>{item.name}</td>
+                <td>$ {item.price}</td>
                 <th>
-                  <button className="btn btn-ghost btn-xs">details</button>
+                  <button
+                    onClick={() => handleDelete(item.menuItemId)}
+                    className="btn btn-ghost btn-xl text-red-500 btn-circle"
+                  >
+                    <FaTrashAlt className="text-lg"></FaTrashAlt>
+                  </button>
                 </th>
               </tr>
             ))}

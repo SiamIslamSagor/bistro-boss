@@ -29,7 +29,6 @@ const Dashboard = props => {
               <FaCalendar></FaCalendar> Add a Review
             </NavLink>
           </li>
-
           <li>
             <NavLink to="/dashboard/bookings">
               <FaHome></FaHome> My Bookings
