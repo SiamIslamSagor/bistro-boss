@@ -1,9 +1,11 @@
 import { FaTrashAlt } from "react-icons/fa";
 import useCart from "../../../hooks/useCart";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Cart = () => {
   const [cart] = useCart();
+  const axiosSecure = useAxiosSecure();
 
   // price
   const totalPrice = cart.reduce((total, item) => total + item.price, 0);
@@ -20,12 +22,22 @@ const Cart = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(result => {
       if (result.isConfirmed) {
-        console.log("DELETE THIS: ", id),
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
+        //
+        axiosSecure
+          .delete(`/carts/${id}`)
+          .then(res => {
+            console.log("DELETE THIS: ", id), console.log(res.data);
+          })
+          .catch(err => {
+            console.log(err);
           });
+        //
+
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
       }
     });
   };
@@ -71,7 +83,7 @@ const Cart = () => {
                 <td>$ {item.price}</td>
                 <th>
                   <button
-                    onClick={() => handleDelete(item.menuItemId)}
+                    onClick={() => handleDelete(item._id)}
                     className="btn btn-ghost btn-xl text-red-500 btn-circle"
                   >
                     <FaTrashAlt className="text-lg"></FaTrashAlt>
