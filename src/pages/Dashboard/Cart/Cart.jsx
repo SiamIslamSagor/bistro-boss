@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Cart = () => {
-  const [cart] = useCart();
+  const [cart, refetch] = useCart();
   const axiosSecure = useAxiosSecure();
 
   // price
@@ -26,18 +26,20 @@ const Cart = () => {
         axiosSecure
           .delete(`/carts/${id}`)
           .then(res => {
-            console.log("DELETE THIS: ", id), console.log(res.data);
+            console.log("DELETE THIS: ", id);
+            refetch();
+            if (res?.data?.deletedCount) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+              });
+            }
           })
           .catch(err => {
             console.log(err);
           });
         //
-
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        });
       }
     });
   };
