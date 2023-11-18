@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 
 const AllUser = () => {
   //
+  //
   const axiosSecure = useAxiosSecure();
   const { data: users = [], refetch } = useQuery({
     queryKey: ["usersDataWithTanStack"],

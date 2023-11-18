@@ -12,13 +12,13 @@ import {
 } from "react-icons/fa";
 import { IoMdMenu } from "react-icons/io";
 import useCart from "../hooks/useCart";
-import { useState } from "react";
+import useAdmin from "../hooks/useAdmin";
 
 const Dashboard = () => {
   const [cart] = useCart();
 
   // TODO: get is admin value from the database
-  const [isAdmin, setIsAdmin] = useState(true);
+  const [isAdmin] = useAdmin();
 
   return (
     <div className="flex">

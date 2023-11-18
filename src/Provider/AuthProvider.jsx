@@ -11,6 +11,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { app } from "../config/firebase.config";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 //////////////////// context//////////////////
 
@@ -30,6 +31,7 @@ const AuthProvider = ({ children }) => {
 
   // provider
   const googleProvider = new GoogleAuthProvider();
+  const axiosPublic = useAxiosPublic();
 
   // emailPass login
   const createUser = (email, password) => {
@@ -68,12 +70,29 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser);
       console.log("USER OBSERVED BY onAuthStateChanged :=>", currentUser);
+      // jwt code block
+      if (currentUser) {
+        // get token and store client
+        const userInfo = { email: currentUser.email };
+        axiosPublic.post("/jwt", userInfo).then(res => {
+          if (res.data) {
+            localStorage.setItem("access-token", res.data.token);
+          }
+        });
+        console.log();
+      } else {
+        // TODO: remove token (if token stored in the client side: LocalStorage, cookie)
+        // do something
+        localStorage.removeItem("access-token");
+        console.log();
+      }
+
       setLoading(false);
     });
     return () => {
       return unsubscribe();
     };
-  }, [updatingUser]);
+  }, [updatingUser, axiosPublic]);
 
   //////////////////// main data//////////////////
 
