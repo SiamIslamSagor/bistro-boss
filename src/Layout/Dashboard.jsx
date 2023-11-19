@@ -8,8 +8,9 @@ import {
   FaList,
   FaShoppingCart,
   FaUser,
-  FaUtensils,
+  FaUsers,
 } from "react-icons/fa";
+import { ImSpoonKnife } from "react-icons/im";
 import { IoMdMenu } from "react-icons/io";
 import useCart from "../hooks/useCart";
 import useAdmin from "../hooks/useAdmin";
@@ -34,7 +35,8 @@ const Dashboard = () => {
               </li>
               <li>
                 <NavLink to="/dashboard/addItems">
-                  <FaUtensils></FaUtensils> Add Items
+                  <ImSpoonKnife />
+                  Add Items
                 </NavLink>
               </li>
               <li>
@@ -49,7 +51,7 @@ const Dashboard = () => {
               </li>
               <li>
                 <NavLink to="/dashboard/users">
-                  <FaUser></FaUser> All Users
+                  <FaUsers></FaUsers> All Users
                 </NavLink>
               </li>
             </>
