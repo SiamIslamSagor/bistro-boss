@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
+import { ImSpoonKnife } from "react-icons/im";
 
 const AddItems = () => {
   const { register, handleSubmit } = useForm();
@@ -18,7 +19,7 @@ const AddItems = () => {
               <span className="label-text">Recipe Name *</span>
             </label>
             <input
-              {...register("name")}
+              {...register("name", { required: true })}
               type="text"
               placeholder="Recipe Name"
               className="input focus:outline-none input-bordered w-full "
@@ -32,7 +33,7 @@ const AddItems = () => {
               </label>
               <select
                 defaultValue={"Select a Category"}
-                {...register("category")}
+                {...register("category", { required: true })}
                 className="focus:outline-none select select-bordered w-full "
               >
                 <option disabled>Select a Category</option>
@@ -50,7 +51,7 @@ const AddItems = () => {
                 <span className="label-text">Price *</span>
               </label>
               <input
-                {...register("price")}
+                {...register("price", { required: true })}
                 type="number"
                 placeholder="Price"
                 className="input focus:outline-none input-bordered w-full "
@@ -63,12 +64,25 @@ const AddItems = () => {
               <span className="label-text">Recipe Details *</span>
             </label>
             <textarea
-              {...register("recipeDetails")}
+              {...register("recipe", { required: true })}
               className="textarea focus:outline-none textarea-bordered h-24"
               placeholder="Recipe Details"
             ></textarea>
           </div>
-          <input className="btn btn-secondary" type="submit" />
+
+          <input
+            {...register("image", { required: true })}
+            type="file"
+            className="file-input w-full max-w-xs focus:outline-none"
+          />
+          <br />
+
+          <button
+            type="submit"
+            className="btn px-10 btn-secondary bg-gradient-to-r from-[#835D23] to-[#B58130] rounded-none normal-case text-white text-lg"
+          >
+            Submit <ImSpoonKnife />
+          </button>
         </form>
       </div>
     </div>
