@@ -10,6 +10,7 @@ import useMenu from "../../../hooks/useMenu";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import { FaTrashAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export const ManageItems = () => {
   const [menu, , refetch] = useMenu();
@@ -88,12 +89,14 @@ export const ManageItems = () => {
                   <td>{menuItem.name}</td>
                   <td>{"$" + menuItem.price}</td>
                   <td>
-                    <button
-                      onClick={() => handleUpdateItem(menuItem)}
-                      className="btn btn-xl text-white bg-[#d99c42] btn-square hover:text-[#d99c42] hover:bg-white hover:border hover:border-[#d99c42] duration-300 ease-linear"
-                    >
-                      <PiNotePencil className="text-2xl" />
-                    </button>
+                    <Link to={`/dashboard/updateItems/${menuItem._id}`}>
+                      <button
+                        onClick={() => handleUpdateItem(menuItem)}
+                        className="btn btn-xl text-white bg-[#d99c42] btn-square hover:text-[#d99c42] hover:bg-white hover:border hover:border-[#d99c42] duration-300 ease-linear"
+                      >
+                        <PiNotePencil className="text-2xl" />
+                      </button>
+                    </Link>
                   </td>
                   <td>
                     <button
