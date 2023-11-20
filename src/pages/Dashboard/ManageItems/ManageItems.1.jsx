@@ -12,7 +12,7 @@ import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import { FaTrashAlt } from "react-icons/fa";
 
 export const ManageItems = () => {
-  const [menu] = useMenu();
+  const [menu, , refetch] = useMenu();
   const axiosSecure = useAxiosSecure();
 
   //   handler
@@ -27,25 +27,21 @@ export const ManageItems = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
-    }).then(result => {
+    }).then(async result => {
       if (result.isConfirmed) {
         // hit delete api in server side by specific id;
-        axiosSecure
-          .delete(`/menu/${item._id}`)
-          .then(res => {
-            console.log("DELETE THIS: ", item._id);
-            // refetch();
-            if (res?.data?.deletedCount >= 0) {
-              Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success",
-              });
-            }
-          })
-          .catch(err => {
-            console.log(err);
+        const res = await axiosSecure.delete(`/menu/${item._id}`);
+        console.log(res.data);
+        if (res.data.deletedCount >= 0) {
+          // refetch to update the ui
+          refetch();
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+            timer: 1500,
           });
+        }
       }
     });
   };
