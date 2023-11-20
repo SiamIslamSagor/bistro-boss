@@ -11,7 +11,7 @@ import Cart from "../pages/Dashboard/Cart/Cart";
 import AllUser from "../pages/Dashboard/AllUser/AllUser";
 import AddItems from "../pages/Dashboard/AddItems/AddItems";
 import AdminRoute from "./AdminRoute";
-import ManageItems from "../pages/Dashboard/ManageItems/ManageItems";
+import { ManageItems } from "../pages/Dashboard/ManageItems/ManageItems.1";
 
 export const router = createBrowserRouter([
   {

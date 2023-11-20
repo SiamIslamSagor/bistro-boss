@@ -1,11 +1,19 @@
-import { FaTrashAlt } from "react-icons/fa";
-import SectionTitle from "../../../components/SectionTitle/SectionTitle";
-import useMenu from "../../../hooks/useMenu";
-import { PiNotePencil, PiNotePencilBold } from "react-icons/pi";
-import Swal from "sweetalert2";
+// import { FaTrashAlt } from "react-icons/fa";
+// import SectionTitle from "../../../components/SectionTitle/SectionTitle";
+// import useMenu from "../../../hooks/useMenu";
+// import Swal from "sweetalert2";
+// import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
-const ManageItems = () => {
+import { PiNotePencil } from "react-icons/pi";
+import Swal from "sweetalert2";
+import useMenu from "../../../hooks/useMenu";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import SectionTitle from "../../../components/SectionTitle/SectionTitle";
+import { FaTrashAlt } from "react-icons/fa";
+
+export const ManageItems = () => {
   const [menu] = useMenu();
+  const axiosSecure = useAxiosSecure();
 
   //   handler
   const handleDeleteItem = item => {
@@ -22,11 +30,22 @@ const ManageItems = () => {
     }).then(result => {
       if (result.isConfirmed) {
         // hit delete api in server side by specific id;
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        });
+        axiosSecure
+          .delete(`/menu/${item._id}`)
+          .then(res => {
+            console.log("DELETE THIS: ", item._id);
+            // refetch();
+            if (res?.data?.deletedCount >= 0) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     });
   };
@@ -97,5 +116,3 @@ const ManageItems = () => {
     </div>
   );
 };
-
-export default ManageItems;
