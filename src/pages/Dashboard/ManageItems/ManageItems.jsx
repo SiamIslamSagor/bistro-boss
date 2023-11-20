@@ -2,9 +2,37 @@ import { FaTrashAlt } from "react-icons/fa";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
 import useMenu from "../../../hooks/useMenu";
 import { PiNotePencil, PiNotePencilBold } from "react-icons/pi";
+import Swal from "sweetalert2";
 
 const ManageItems = () => {
   const [menu] = useMenu();
+
+  //   handler
+  const handleDeleteItem = item => {
+    console.log(item);
+    //
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(result => {
+      if (result.isConfirmed) {
+        // hit delete api in server side by specific id;
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
+  const handleUpdateItem = item => {
+    console.log(item);
+  };
   return (
     <div>
       <SectionTitle
@@ -45,12 +73,18 @@ const ManageItems = () => {
                   <td>{menuItem.name}</td>
                   <td>{"$" + menuItem.price}</td>
                   <td>
-                    <button className="btn btn-xl text-white bg-[#d99c42] btn-square hover:text-[#d99c42] hover:bg-white hover:border hover:border-[#d99c42] duration-300 ease-linear">
+                    <button
+                      onClick={() => handleUpdateItem(menuItem)}
+                      className="btn btn-xl text-white bg-[#d99c42] btn-square hover:text-[#d99c42] hover:bg-white hover:border hover:border-[#d99c42] duration-300 ease-linear"
+                    >
                       <PiNotePencil className="text-2xl" />
                     </button>
                   </td>
                   <td>
-                    <button className="btn btn-xl text-white bg-red-600 btn-square hover:bg-white hover:border hover:text-red-600 hover:border-red-600 duration-300 ease-linear">
+                    <button
+                      onClick={() => handleDeleteItem(menuItem)}
+                      className="btn btn-xl text-white bg-red-600 btn-square hover:bg-white hover:border hover:text-red-600 hover:border-red-600 duration-300 ease-linear "
+                    >
                       <FaTrashAlt className="text-lg"></FaTrashAlt>
                     </button>
                   </td>
