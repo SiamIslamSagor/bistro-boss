@@ -1,5 +1,9 @@
 import React from "react";
 import SectionTitle from "../../../components/SectionTitle/SectionTitle";
+import { loadStripe } from "@stripe/stripe-js";
+
+// TODO: add publishable key
+const stipePromise = loadStripe("");
 
 const Payment = () => {
   return (
