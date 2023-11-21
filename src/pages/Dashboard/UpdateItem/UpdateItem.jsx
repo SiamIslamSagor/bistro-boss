@@ -13,7 +13,7 @@ const UpdateItem = () => {
   const oldItem = useLoaderData();
   const axiosPublic = useAxiosPublic();
   const axiosSecure = useAxiosSecure();
-  const { _id, name, recipe, image, category, price } = oldItem;
+  const { _id, name, recipe, category, price } = oldItem;
   const { register, handleSubmit, reset } = useForm();
 
   //   handler
