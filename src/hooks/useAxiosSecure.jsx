@@ -28,7 +28,7 @@ const useAxiosSecure = () => {
       return response;
     },
     async error => {
-      const status = error.response.status;
+      const status = error?.response?.status;
       console.log("STATUS CODE ERROR IN THE INTERCEPTORS==>", status);
       // for 401 or 403 status code logout the user and move the user login page.
       if (status === 401 || status === 403) {
