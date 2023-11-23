@@ -8,6 +8,7 @@ import useAuthInfo from "../../../hooks/useAuthInfo";
 const CheckOutForm = () => {
   const [error, setError] = useState("");
   const [clientSecret, setClientSecret] = useState("");
+  const [transactionId, setTransactionId] = useState("");
   const stripe = useStripe();
   console.log(stripe);
   const elements = useElements();
@@ -58,22 +59,28 @@ const CheckOutForm = () => {
       console.log("confirmError", confirmError);
     } else {
       console.log("paymentIntent", paymentIntent);
+      if (paymentIntent.status === "succeeded") {
+        console.log("transaction Id", paymentIntent.id);
+        setTransactionId(paymentIntent.id);
+      }
     }
   };
 
   useEffect(() => {
     console.log(totalPrice);
-    axiosSecure
-      .post("/create-payment-intent", {
-        price: totalPrice === 0 ? 1 : totalPrice,
-      })
-      .then(res => {
-        console.log(res?.data?.clientSecret);
-        setClientSecret(res?.data?.clientSecret);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    if (totalPrice > 0) {
+      axiosSecure
+        .post("/create-payment-intent", {
+          price: totalPrice,
+        })
+        .then(res => {
+          console.log(res?.data?.clientSecret);
+          setClientSecret(res?.data?.clientSecret);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }, [axiosSecure, totalPrice]);
 
   return (
@@ -101,6 +108,9 @@ const CheckOutForm = () => {
       >
         Pay
       </button>
+      {transactionId && (
+        <p className="text-green-600">Your Transaction Id {transactionId}</p>
+      )}
       {error && <p className="text-red-600">{error}</p>}
     </form>
   );
